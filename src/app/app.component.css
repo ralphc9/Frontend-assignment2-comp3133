@@ -1,0 +1,11 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

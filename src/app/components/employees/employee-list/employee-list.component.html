@@ -1,0 +1,111 @@
+<app-header></app-header>
+
+<div class="container">
+  <div class="header">
+    <h1>Employee Management</h1>
+    <div class="actions">
+      <button class="btn btn-primary" routerLink="/employees/add">
+        <i class="fas fa-plus"></i> Add Employee
+      </button>
+      <button class="btn btn-danger" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+  </div>
+
+  <div class="search-section">
+    <h3>Search Employees</h3>
+    <div class="search-form">
+      <div class="form-group">
+        <label for="department">Department</label>
+        <select id="department" [(ngModel)]="searchDepartment" class="form-control">
+          <option value="">All Departments</option>
+          <option value="Engineering">Engineering</option>
+          <option value="HR">HR</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Finance">Finance</option>
+          <option value="Sales">Sales</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="position">Position</label>
+        <select id="position" [(ngModel)]="searchPosition" class="form-control">
+          <option value="">All Positions</option>
+          <option value="Manager">Manager</option>
+          <option value="Developer">Developer</option>
+          <option value="Designer">Designer</option>
+          <option value="Analyst">Analyst</option>
+          <option value="HR Specialist">HR Specialist</option>
+          <option value="Accountant">Accountant</option>
+        </select>
+      </div>
+      
+      <button class="btn btn-primary" (click)="searchEmployees()">
+        <i class="fas fa-search"></i> Search
+      </button>
+      <button class="btn btn-secondary" (click)="resetSearch()">
+        <i class="fas fa-redo"></i> Reset
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && employees.length === 0" class="alert alert-info">
+    No employees found.
+  </div>
+
+  <div *ngIf="!loading && employees.length > 0" class="employee-table">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Profile</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Department</th>
+          <th>Position</th>
+          <th>Salary</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employees">
+          <td>
+            <img 
+              [src]="employee.profilePicture || 'assets/images/default-profile.png'" 
+              alt="Profile" 
+              class="profile-img"
+            />
+          </td>
+          <td>{{ employee.firstName }} {{ employee.lastName }}</td>
+          <td>{{ employee.email }}</td>
+          <td>{{ employee.department }}</td>
+          <td>{{ employee.position }}</td>
+          <td>{{ employee.salary | currency }}</td>
+          <td class="actions">
+            <button class="btn btn-sm btn-info" [routerLink]="['/employees', employee.id]">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="btn btn-sm btn-warning" [routerLink]="['/employees', employee.id, 'edit']">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="deleteEmployee(employee.id!)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-footer></app-footer>

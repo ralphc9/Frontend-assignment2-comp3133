@@ -1,0 +1,79 @@
+<app-header></app-header>
+
+<div class="container">
+  <div class="header">
+    <h1>Employee Details</h1>
+    <button class="btn btn-secondary" routerLink="/employees">
+      <i class="fas fa-arrow-left"></i> Back to List
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && employee" class="employee-details">
+    <div class="card">
+      <div class="card-header">
+        <div class="profile-section">
+          <div class="profile-image">
+            <img 
+              [src]="employee.profilePicture || 'assets/images/default-profile.png'" 
+              alt="Profile"
+            />
+          </div>
+          <div class="profile-info">
+            <h2>{{ employee.firstName }} {{ employee.lastName }}</h2>
+            <p class="position">{{ employee.position || 'No Position' }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-section">
+          <h3>Contact Information</h3>
+          <div class="info-row">
+            <div class="info-label">Email:</div>
+            <div class="info-value">{{ employee.email }}</div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <h3>Employment Details</h3>
+          <div class="info-row">
+            <div class="info-label">Department:</div>
+            <div class="info-value">{{ employee.department || 'Not Specified' }}</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Position:</div>
+            <div class="info-value">{{ employee.position || 'Not Specified' }}</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Salary:</div>
+            <div class="info-value">{{ employee.salary | currency }}</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Gender:</div>
+            <div class="info-value">{{ employee.gender || 'Not Specified' }}</div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-warning" [routerLink]="['/employees', employee.id, 'edit']">
+            <i class="fas fa-edit"></i> Edit
+          </button>
+          <button class="btn btn-danger" (click)="deleteEmployee()">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
